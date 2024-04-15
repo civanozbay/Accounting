@@ -70,3 +70,26 @@ values
 ('2022-09-09 00:00:00', 1, false, '2022-09-09 00:00:00', 1,
  'admin@redtech.com', '$2a$10$nAB5j9G1c3JHgg7qzhiIXO7cqqr5oJ3LXRNQJKssDUwHXzDGUztNK',
  'John', 'Doe', '+1 (659) 756-1265', 2, 4, true);
+
+insert into categories(insert_date_time, insert_user_id, is_deleted, last_update_date_time, last_update_user_id,
+                       description, company_id)
+values
+-- COMPANY-2 / Green Tech
+('2022-09-15 00:00:00', 2, false, '2022-09-15 00:00:00', 2, 'Computer', 2),
+('2022-09-15 00:00:00', 2, false, '2022-09-15 00:00:00', 2, 'Phone', 2),
+-- COMPANY-3 / Blue Tech
+('2022-09-15 00:00:00', 3, false, '2022-09-15 00:00:00', 3, 'Phone', 3),
+('2022-09-15 00:00:00', 3, false, '2022-09-15 00:00:00', 3, 'TV', 3),
+('2022-09-15 00:00:00', 3, false, '2022-09-15 00:00:00', 3, 'Monitor', 3);
+
+insert into products(insert_date_time, insert_user_id, is_deleted, last_update_date_time, last_update_user_id,
+                     name, quantity_in_stock, low_limit_alert, product_unit, category_id)
+VALUES
+-- COMPANY-2 / Green Tech
+('2022-09-15 00:00', 2, 'false', '2022-09-15 00:00', 2, 'HP Elite 800G1 Desktop Computer Package', 8, 5,'PCS', 1),
+('2022-09-15 00:00', 2, 'false', '2022-09-15 00:00', 2, '2021 Apple MacBook Pro', 0, 5,'PCS', 1),
+('2022-09-15 00:00', 2, 'false', '2022-09-15 00:00', 2, 'Apple iPhone-13', 0, 5,'PCS', 2),
+('2022-09-15 00:00', 2, 'false', '2022-09-15 00:00', 2, 'SAMSUNG Galaxy S22',0, 5,'PCS', 2),
+-- COMPANY-3 / Blue Tech
+('2022-09-15 00:00', 3, 'false', '2022-09-15 00:00', 3, 'Samsung Galaxy S20 (renewed)', 10, 5, 'PCS', 3),
+('2022-09-15 00:00', 3, 'false', '2022-09-15 00:00', 3, 'Samsung Galaxy S22', 20, 5, 'PCS', 3);
