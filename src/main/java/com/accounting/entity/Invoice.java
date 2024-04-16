@@ -20,9 +20,9 @@ public class Invoice extends BaseEntity{
 
     private String invoiceNo;
     @Enumerated(EnumType.STRING)
-    InvoiceStatus invoiceStatus;
+    private InvoiceStatus invoiceStatus;
     @Enumerated(EnumType.STRING)
-    InvoiceType invoiceType;
+    private InvoiceType invoiceType;
 
     private LocalDate date;
 

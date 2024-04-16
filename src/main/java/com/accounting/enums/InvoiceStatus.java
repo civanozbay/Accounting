@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum InvoiceStatus {
 
     AWAITING_APPROVAL("Awaiting Approval"),
-    APROVED("Aproved");
+    APPROVED("Approved");
 
     private final String value;
 
