@@ -83,11 +83,11 @@
                         }]
                     },
                     options: {
-                        scales: {
-                            yAxes: [{
-
-                            }]
-                        },
+                        // scales: {
+                        //     yAxes: [{
+                        //
+                        //     }]
+                        // },
                              legend: {
                         display: true,
                         position: 'bottom',
