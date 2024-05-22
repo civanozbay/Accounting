@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:replace="/fragments/head :: header"></head>
+<head th:replace="~{/fragments/head :: header}"></head>
 <head>
     <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js}"/>
@@ -130,7 +130,7 @@
 
 <body>
 <div class="dashboard-main-wrapper">
-    <div th:replace="/fragments/header :: header"></div>
+    <div th:replace="~{/fragments/header :: header}"></div>
     <div th:replace="/fragments/left-sidebar :: left-sidebar"></div>
     <div class="dashboard-wrapper">
         <div class="dashboard-ecommerce">
@@ -148,7 +148,7 @@
                                         <span class="progress-right">
                                                 <span class="progress-bar"></span>
                                             </span>
-                                        <div class="progress-value" th:text="'$ '+${summaryNumbers.get('totalCost')}">90%</div>
+                                        <div class="progress-value" >90%</div>
                                     </div>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                                         <span class="progress-right">
                                                 <span class="progress-bar"></span>
                                             </span>
-                                        <div class="progress-value" th:text="'$ '+${summaryNumbers.get('totalSales')}">90%</div>
+                                        <div class="progress-value">90%</div>
                                     </div>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@
                                         <span class="progress-right">
                                                 <span class="progress-bar"></span>
                                             </span>
-                                        <div class="progress-value" th:text="'$ '+${summaryNumbers.get('profitLoss')}">90%</div>
+                                        <div class="progress-value" >90%</div>
                                     </div>
                                 </div>
                             </div>
@@ -211,13 +211,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="invoice:${invoices}">
-                                            <td th:text="${invoice.invoiceNo}"></td>
-                                            <td th:text="${invoice.clientVendor.getClientVendorName}"></td>
-                                            <td th:text="${invoice.date}"></td>
-                                            <td th:text="${invoice.price}"></td>
-                                            <td th:text="${invoice.tax}"></td>
-                                            <td th:text="${invoice.total}"></td>
+                                        <tr>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -240,23 +234,23 @@
                                         <tbody>
                                         <tr>
                                             <td>Euro</td>
-                                            <td th:text="${exchangeRates.getEuro()}"></td>
+                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td>British Pound</td>
-                                            <td th:text="${exchangeRates.getBritishPound()}"></td>
+                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td>Canadian Dollar</td>
-                                            <td th:text="${exchangeRates.getCanadianDollar()}"></td>
+                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td>Japanese Yen</td>
-                                            <td th:text="${exchangeRates.getJapaneseYen()}"></td>
+                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td>Indian Rupee</td>
-                                            <td th:text="${exchangeRates.getIndianRupee()}"></td>
+                                            <td></td>
                                         </tr>
                                         </tbody>
                                     </table>
