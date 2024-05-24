@@ -19,6 +19,7 @@ public class BaseEntityListener extends AuditingEntityListener {
         baseEntity.insertDateTime = LocalDateTime.now();
         baseEntity.lastUpdateDateTime = LocalDateTime.now();
 
+
         if (authentication != null && !authentication.getName().equals("anonymousUser")) {
             UserPrincipal principal =(UserPrincipal) authentication.getPrincipal();
             baseEntity.insertUserId = principal.getId();
