@@ -2,7 +2,7 @@ package com.accounting.entity;
 
 import com.accounting.enums.InvoiceStatus;
 import com.accounting.enums.InvoiceType;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

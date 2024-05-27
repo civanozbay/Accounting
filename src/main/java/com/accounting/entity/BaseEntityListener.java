@@ -1,8 +1,8 @@
 package com.accounting.entity;
 
 import com.accounting.entity.common.UserPrincipal;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

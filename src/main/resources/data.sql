@@ -42,6 +42,9 @@ values
 ('2022-09-09 00:00:00', 1, false, '2022-09-09 00:00:00', 1,
  'root@cydeo.com', '$2a$10$nAB5j9G1c3JHgg7qzhiIXO7cqqr5oJ3LXRNQJKssDUwHXzDGUztNK',
  'Robert', 'Martin', '+1 (852) 564-5874', 1, 1, true),
+('2022-09-09 00:00:00', 1, false, '2022-09-09 00:00:00', 1,
+ 'root2@cydeo.com', 'test',
+ 'Roberto', 'Martino', '+1 (852) 564-5874', 1, 1, true),
 -- COMPANY-2 / Green Tech / ADMIN-1
 ('2022-09-09 00:00:00', 1, false, '2022-09-09 00:00:00', 1,
  'admin@greentech.com', '$2a$10$nAB5j9G1c3JHgg7qzhiIXO7cqqr5oJ3LXRNQJKssDUwHXzDGUztNK',

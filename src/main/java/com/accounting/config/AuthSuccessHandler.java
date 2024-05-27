@@ -1,7 +1,7 @@
 package com.accounting.config;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -19,14 +19,18 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+        System.out.println("Authentication Success for user: " + authentication.getName() + " with roles: " + roles.toString());
 
         if (roles.contains("Root User")) {
             response.sendRedirect("/companies/list");
-        } else if (roles.contains("Admin")) {
+        }
+        if (roles.contains("Admin")) {
             response.sendRedirect("/users/list");
-        } else if (roles.contains("Manager")) {
+        }
+        if (roles.contains("Manager")) {
             response.sendRedirect("/dashboard");
-        } else if (roles.contains("Employee")) {
+        }
+        if (roles.contains("Employee")) {
             response.sendRedirect("/dashboard");
         }
     }

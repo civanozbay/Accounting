@@ -6,7 +6,9 @@ import com.accounting.repository.UserRepository;
 import com.accounting.service.SecurityService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SecurityServiceImpl implements SecurityService {
 
     private final UserRepository userRepository;
@@ -18,6 +20,10 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
+        System.out.println(user.getRole());
+        if (user == null) {
+            throw new UsernameNotFoundException("This user does not exist");
+        }
         return new UserPrincipal(user);
     }
 }
