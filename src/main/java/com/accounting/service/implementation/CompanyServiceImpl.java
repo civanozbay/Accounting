@@ -8,6 +8,7 @@ import com.accounting.repository.CompanyRepository;
 import com.accounting.service.CompanyService;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
@@ -27,7 +28,10 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<CompanyDto> getAllCompanies() {
-        return companyRepository.findAll().stream().map(company -> mapperUtil.convert(company,new CompanyDto())).collect(Collectors.toList());
+        return companyRepository.findAll().stream()
+                .filter(company -> company.getId() != 1)
+                .sorted(Comparator.comparing(Company::getCompanyStatus).thenComparing(Company::getTitle))
+                .map(company -> mapperUtil.convert(company,new CompanyDto())).collect(Collectors.toList());
     }
 
     @Override
