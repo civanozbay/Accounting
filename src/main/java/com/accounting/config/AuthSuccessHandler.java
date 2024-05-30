@@ -22,7 +22,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         System.out.println("Authentication Success for user: " + authentication.getName() + " with roles: " + roles.toString());
 
         if (roles.contains("Root User")) {
-            response.sendRedirect("/dashboard");
+            response.sendRedirect("/companies/list");
         }
         if (roles.contains("Admin")) {
             response.sendRedirect("/users/list");
