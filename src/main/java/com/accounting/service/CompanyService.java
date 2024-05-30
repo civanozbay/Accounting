@@ -1,12 +1,18 @@
 package com.accounting.service;
 
 import com.accounting.dto.CompanyDto;
-import com.accounting.entity.Company;
 import org.springframework.stereotype.Service;
 
-@Service
+import java.util.List;
+
+
 public interface CompanyService {
 
     CompanyDto findCompanyById(Long id);
 
+    List<CompanyDto> getAllCompanies();
+
+    void activate(Long companyId);
+
+    void deactivate(Long companyId);
 }
