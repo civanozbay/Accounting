@@ -15,4 +15,6 @@ public interface CompanyService {
     void activate(Long companyId);
 
     void deactivate(Long companyId);
+
+    void create(CompanyDto companyDto);
 }
