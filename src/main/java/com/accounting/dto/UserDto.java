@@ -2,19 +2,35 @@ package com.accounting.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.*;
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
 
     private Long id;
-    private String username;
-    private String password;
-    private String confirmPassword;
-    private String firstname;
-    private String lastname;
-    private String phone;
 
+    @NotBlank
+    @Email
+    private String username;
+    @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,}")
+    private String password;
+    @NotNull
+    private String confirmPassword;
+    @NotBlank(message = "First Name is required field.")
+    @Size(min = 2, max = 50)
+    private String firstname;
+    @NotBlank
+    @Size(min = 2, max = 50)
+    private String lastname;
+    @Pattern(regexp = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$" // +111 (202) 555-0125  +1 (202) 555-0125
+            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"                                  // +111 123 456 789
+            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$")
+    private String phone;
+    @NotNull
     private RoleDto role;
+    @NotNull
     private CompanyDto company;
     private Boolean isOnlyAdmin;
 
