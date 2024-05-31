@@ -24,6 +24,13 @@ public class UserDto {
     public void setId(Long id) {
         this.id = id;
     }
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
     public String getUsername() {return username;}
 
