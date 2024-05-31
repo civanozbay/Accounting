@@ -1,5 +1,6 @@
 package com.accounting.controller;
 
+import com.accounting.dto.CompanyDto;
 import com.accounting.service.CompanyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +40,12 @@ public class CompanyController {
     public String deactivateCompany(@PathVariable("companyId")Long companyId  ){
         companyService.deactivate(companyId);
         return "redirect:/companies/list";
+    }
+
+    @GetMapping("/create")
+    public String createCompany(Model model){
+        model.addAttribute("newCompany", new CompanyDto());
+        return "/company/company-create";
     }
 
 
