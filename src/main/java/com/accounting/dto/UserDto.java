@@ -63,6 +63,18 @@ public class UserDto {
         this.confirmPassword = confirmPassword;
         checkConfirmPassword();
     }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+        checkConfirmPassword();
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
 
     private void checkConfirmPassword() {
         if (password != null && !password.equals(confirmPassword)) {
