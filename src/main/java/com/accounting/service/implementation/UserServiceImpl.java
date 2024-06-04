@@ -7,6 +7,7 @@ import com.accounting.repository.UserRepository;
 import com.accounting.service.SecurityService;
 import com.accounting.service.UserService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -17,13 +18,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final MapperUtil mapperUtil;
-
     private final SecurityService securityService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, MapperUtil mapperUtil,@Lazy SecurityService securityService) {
+    public UserServiceImpl(UserRepository userRepository, MapperUtil mapperUtil,@Lazy SecurityService securityService,PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.mapperUtil = mapperUtil;
         this.securityService = securityService;
+        this.passwordEncoder =passwordEncoder;
     }
 
     @Override
@@ -69,6 +71,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findByUsername(String username) {
         return mapperUtil.convert(userRepository.findByUsername(username),new UserDto());
+    }
+
+    @Override
+    public UserDto create(UserDto userDto) {
+        User user = mapperUtil.convert(userDto, new User());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
+        userRepository.save(user);
+        return mapperUtil.convert(user, userDto);
+    }
+
+    @Override
+    public Boolean emailExist(UserDto userDto) {
+        return userRepository.findByUsername(userDto.getUsername()) != null;
     }
 
 

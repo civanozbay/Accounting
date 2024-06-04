@@ -6,8 +6,10 @@ import com.accounting.enums.CompanyStatus;
 import com.accounting.mapper.MapperUtil;
 import com.accounting.repository.CompanyRepository;
 import com.accounting.service.CompanyService;
+import com.accounting.service.SecurityService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,9 +18,11 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final  CompanyRepository companyRepository;
     private final MapperUtil mapperUtil;
-    public CompanyServiceImpl(CompanyRepository companyRepository,MapperUtil mapperUtil) {
+    private final SecurityService securityService;
+    public CompanyServiceImpl(CompanyRepository companyRepository,MapperUtil mapperUtil, SecurityService securityService) {
         this.companyRepository = companyRepository;
         this.mapperUtil=mapperUtil;
+        this.securityService =securityService;
     }
 
     @Override
@@ -56,4 +60,24 @@ public class CompanyServiceImpl implements CompanyService {
         Company company = mapperUtil.convert(companyDto, new Company());
         companyRepository.save(company);
     }
+
+
+
+    @Override
+    public List<CompanyDto> getFilteredCompanyForCurrentUser() {
+
+            return getAllCompanies()
+                    .stream()
+                    .filter(company -> {
+                        if(securityService.getLoggedInUser().getRole().getDescription().equalsIgnoreCase("root user")){
+                          return true;
+                        }else{
+                            return company.getTitle().equals(securityService.getLoggedInUser().getCompany().getTitle());
+                        }
+                    })
+                    .map(comp -> mapperUtil.convert(comp,new CompanyDto()))
+                    .collect(Collectors.toList());
+    }
+
+
 }

@@ -154,16 +154,16 @@
                                                             <div class="form-group">
                                                                 <div class="controls">
                                                                     <label>Company</label>
-<!--                                                                    <select id="company" name="company" class="custom-select"-->
-<!--                                                                            th:field="*{company}">-->
-<!--                                                                        <option th:if="${companies.size() > 1}"-->
-<!--                                                                                th:value="''"-->
-<!--                                                                                th:text="'Select'"></option>-->
-<!--                                                                        <option th:each="company:${companies}"-->
-<!--                                                                                th:value="${company.id}"-->
-<!--                                                                                th:text="${company.getTitle()}"></option>-->
+                                                                    <select id="company" name="company" class="custom-select"
+                                                                            th:field="*{company}">
+                                                                        <option th:if="${companies.size() > 1}"
+                                                                                th:value="''"
+                                                                                th:text="'Select'"></option>
+                                                                        <option th:each="company:${companies}"
+                                                                                th:value="${company.id}"
+                                                                                th:text="${company.getTitle()}"></option>
 
-<!--                                                                    </select>-->
+                                                                    </select>
                                                                     <div th:if="${#fields.hasErrors('company')}">
                                                                         <ul>
                                                                             <li class="validation" th:each="err : ${#fields.errors('company')}"

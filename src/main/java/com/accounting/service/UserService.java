@@ -15,4 +15,8 @@ public interface UserService {
     Boolean checkIfOnlyAdminForCompany(UserDto userDto);
 
     UserDto findByUsername(String username);
+
+    UserDto create(UserDto userDto);
+
+    Boolean emailExist(UserDto userDto);
 }

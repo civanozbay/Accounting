@@ -25,7 +25,7 @@ public class User extends  BaseEntity{
     private boolean enabled;
 
     @ManyToOne
-    Role role;
+    private Role role;
 
     @ManyToOne
     private Company company;
