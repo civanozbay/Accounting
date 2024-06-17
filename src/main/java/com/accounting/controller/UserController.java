@@ -41,7 +41,7 @@ public class UserController {
 
     @PostMapping("/create")
     public String createUser(@Valid @ModelAttribute("newUser")UserDto userDto, BindingResult result){
-        Boolean emailExist = userService.emailExist(userDto);
+        boolean emailExist = userService.emailExist(userDto);
         if (result.hasErrors() || emailExist){
             if (emailExist) {
                 result.rejectValue("username", " ", "A user with this email already exists. Please try with different email.");

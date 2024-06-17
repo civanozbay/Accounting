@@ -1,9 +1,7 @@
 package com.accounting.entity;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

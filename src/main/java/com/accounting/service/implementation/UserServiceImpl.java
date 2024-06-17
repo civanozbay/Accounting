@@ -1,8 +1,11 @@
 package com.accounting.service.implementation;
 
+import com.accounting.dto.CompanyDto;
 import com.accounting.dto.UserDto;
+import com.accounting.entity.Company;
 import com.accounting.entity.User;
 import com.accounting.mapper.MapperUtil;
+import com.accounting.repository.CompanyRepository;
 import com.accounting.repository.UserRepository;
 import com.accounting.service.SecurityService;
 import com.accounting.service.UserService;
@@ -20,12 +23,14 @@ public class UserServiceImpl implements UserService {
     private final MapperUtil mapperUtil;
     private final SecurityService securityService;
     private final PasswordEncoder passwordEncoder;
+    private final CompanyRepository companyRepository;
 
-    public UserServiceImpl(UserRepository userRepository, MapperUtil mapperUtil,@Lazy SecurityService securityService,PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, MapperUtil mapperUtil,@Lazy SecurityService securityService,PasswordEncoder passwordEncoder,CompanyRepository companyRepository) {
         this.userRepository = userRepository;
         this.mapperUtil = mapperUtil;
         this.securityService = securityService;
         this.passwordEncoder =passwordEncoder;
+        this.companyRepository=companyRepository;
     }
 
     @Override

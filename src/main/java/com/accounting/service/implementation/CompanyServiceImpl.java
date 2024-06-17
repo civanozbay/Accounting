@@ -27,7 +27,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDto findCompanyById(Long id) {
-        return mapperUtil.convert(companyRepository.findById(id),new CompanyDto());
+        return mapperUtil.convert(companyRepository.findById(id).get(),new CompanyDto());
     }
 
     @Override
@@ -65,17 +65,15 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<CompanyDto> getFilteredCompanyForCurrentUser() {
-
             return getAllCompanies()
                     .stream()
                     .filter(company -> {
                         if(securityService.getLoggedInUser().getRole().getDescription().equalsIgnoreCase("root user")){
-                          return true;
+                            return true;
                         }else{
                             return company.getTitle().equals(securityService.getLoggedInUser().getCompany().getTitle());
                         }
                     })
-                    .map(comp -> mapperUtil.convert(comp,new CompanyDto()))
                     .collect(Collectors.toList());
     }
 
