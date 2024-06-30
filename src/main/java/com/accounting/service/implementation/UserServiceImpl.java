@@ -92,5 +92,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(userDto.getUsername()) != null;
     }
 
+    @Override
+    public UserDto update(UserDto userDto) {
+        User updatedUser = mapperUtil.convert(userDto, new User());
+        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        updatedUser.setEnabled(userRepository.findUserById(userDto.getId()).isEnabled());
+        User savedUser = userRepository.save(updatedUser);
+        return mapperUtil.convert(savedUser,userDto);
+    }
+
 
 }

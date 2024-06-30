@@ -19,4 +19,6 @@ public interface UserService {
     UserDto create(UserDto userDto);
 
     Boolean emailExist(UserDto userDto);
+
+    UserDto update(UserDto userDto);
 }

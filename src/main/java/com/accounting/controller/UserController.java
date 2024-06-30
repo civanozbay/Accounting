@@ -7,10 +7,7 @@ import com.accounting.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -49,7 +46,20 @@ public class UserController {
             return "/user/user-create";
         }
         userService.create(userDto);
-        return "redirect:/user/user-list";
+        return "redirect:/users/list";
+    }
+
+    @GetMapping("/update/{userId}")
+    public String navigateUpdateUser(@PathVariable("userId")Long userId, Model model){
+        model.addAttribute("user",userService.findUserById(userId));
+        return "/user/user-update";
+    }
+
+    @PostMapping("/update/{userId}")
+    public String updateUser(@PathVariable("userId")Long userId, @Valid @ModelAttribute("user") UserDto userDto,BindingResult result, Model model){
+        userDto.setId(userId);
+        userService.update(userDto);
+        return "redirect:/users/list";
     }
 
     @ModelAttribute
