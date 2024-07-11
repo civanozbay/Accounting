@@ -1,7 +1,6 @@
 package com.accounting.service;
 
 import com.accounting.dto.UserDto;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -21,4 +20,6 @@ public interface UserService {
     Boolean emailExist(UserDto userDto);
 
     UserDto update(UserDto userDto);
+
+    void delete(Long userId);
 }

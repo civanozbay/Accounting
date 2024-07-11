@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -99,6 +102,14 @@ public class UserServiceImpl implements UserService {
         updatedUser.setEnabled(userRepository.findUserById(userDto.getId()).isEnabled());
         User savedUser = userRepository.save(updatedUser);
         return mapperUtil.convert(savedUser,userDto);
+    }
+
+    @Override
+    public void delete(Long userId) {
+        User user = userRepository.findUserById(userId);
+        user.setUsername(user.getUsername() + " - " + user.getId());
+        user.setDeleted(true);
+        userRepository.save(user);
     }
 
 

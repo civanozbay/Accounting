@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "invoices")
+@Where(clause = "is_deleted=false")
 public class Invoice extends BaseEntity{
 
     private String invoiceNo;
