@@ -1,8 +1,9 @@
 package com.accounting.converter;
 
 import com.accounting.dto.ClientVendorDto;
-import com.accounting.dto.UserDto;
+import com.accounting.service.ClientVendorService;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +11,16 @@ import org.springframework.stereotype.Component;
 @ConfigurationPropertiesBinding
 public class ClientVendorDtoConverter implements Converter<String , ClientVendorDto> {
 
+    private final ClientVendorService clientVendorService;
+
+    public ClientVendorDtoConverter(@Lazy ClientVendorService clientVendorService) {
+        this.clientVendorService = clientVendorService;
+    }
+
     @Override
-    public ClientVendorDto convert(String source) {
-        return null;
+    public ClientVendorDto convert(String id) {
+        if (id == null || id.isBlank())
+            return null;
+        return clientVendorService.findClientVendorById(Long.parseLong(id));
     }
 }
