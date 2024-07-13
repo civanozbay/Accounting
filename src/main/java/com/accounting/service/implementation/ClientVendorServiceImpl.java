@@ -52,4 +52,11 @@ public class ClientVendorServiceImpl implements ClientVendorService {
         clientVendor.setDeleted(true);
         clientVendorRepository.save(clientVendor);
     }
+
+    @Override
+    public void save(ClientVendorDto clientVendorDto) {
+        clientVendorDto.setCompany(securityService.getLoggedInUser().getCompany());
+        ClientVendor clientVendor = mapperUtil.convert(clientVendorDto, new ClientVendor());
+        clientVendorRepository.save(clientVendor);
+    }
 }

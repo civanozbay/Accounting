@@ -24,8 +24,8 @@ public class ClientVendor extends BaseEntity{
     @Enumerated(EnumType.STRING)
     ClientVendorType clientVendorType;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     Address address;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     Company company;
 }

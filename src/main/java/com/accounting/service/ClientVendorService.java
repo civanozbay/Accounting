@@ -11,4 +11,6 @@ public interface ClientVendorService {
     ClientVendorDto findClientVendorById(Long id);
 
     void delete(Long id);
+
+    void save(ClientVendorDto clientVendorDto);
 }

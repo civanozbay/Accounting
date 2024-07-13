@@ -6,11 +6,9 @@ import com.accounting.service.AddressService;
 import com.accounting.service.ClientVendorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 
 @Controller
@@ -26,7 +24,7 @@ public class ClientVendorController {
     }
 
     @GetMapping("/list")
-    public String getClientVendor(Model model){
+    public String getClientVendors(Model model){
         model.addAttribute("clientVendors",clientVendorService.getAllClientsForCurrentUser());
         return "clientVendor/clientVendor-list";
     }
@@ -43,11 +41,16 @@ public class ClientVendorController {
     }
 
     @GetMapping("/create")
-    public String createClientVendor(Model model){
+    public String getCreateClientVendor(Model model){
         model.addAttribute("newClientVendor",new ClientVendorDto());
         return "clientVendor/clientVendor-create";
     }
 
+    @PostMapping("/create")
+    public String createClientVendor(@Valid @ModelAttribute("newClientVendor")ClientVendorDto clientVendorDto){
+        clientVendorService.save(clientVendorDto);
+        return "redirect:/clientVendors/list";
+    }
 
     @ModelAttribute
     public void commonAttributes(Model model){
