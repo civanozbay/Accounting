@@ -16,5 +16,5 @@ public class ProductDto {
     private int quantityInStock;
     private int lowLimitAlert;
     private ProductUnit productUnit;
-    private CategoryDto categoryDto;
+    private CategoryDto category;
 }
