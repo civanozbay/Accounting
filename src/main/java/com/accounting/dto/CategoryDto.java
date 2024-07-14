@@ -14,7 +14,6 @@ public class CategoryDto {
 
     private Long id;
     private String description;
-    @ManyToOne
     private CompanyDto companyDto;
     private boolean hasProduct;
 

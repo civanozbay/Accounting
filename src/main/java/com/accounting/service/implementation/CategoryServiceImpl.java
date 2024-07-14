@@ -20,6 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final MapperUtil mapperUtil;
     private final SecurityService securityService;
 
+
     public CategoryServiceImpl(CategoryRepository categoryRepository, MapperUtil mapperUtil,SecurityService securityService) {
         this.categoryRepository = categoryRepository;
         this.mapperUtil = mapperUtil;
@@ -28,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto findCategoryById(Long id) {
-        return mapperUtil.convert(categoryRepository.findById(id),new CategoryDto());
+        return mapperUtil.convert(categoryRepository.findById(id).get(),new CategoryDto());
     }
 
     @Override
@@ -45,6 +46,13 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = mapperUtil.convert(categoryDto, new Category());
         Company company = mapperUtil.convert(securityService.getLoggedInUser().getCompany(), new Company());
         category.setCompany(company);
+        categoryRepository.save(category);
+    }
+
+    @Override
+    public void update(Long id,CategoryDto categoryDto) {
+        Category category = categoryRepository.findById(id).get();
+        category.setDescription(categoryDto.getDescription());
         categoryRepository.save(category);
     }
 }
