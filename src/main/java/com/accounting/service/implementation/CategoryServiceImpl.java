@@ -55,4 +55,12 @@ public class CategoryServiceImpl implements CategoryService {
         category.setDescription(categoryDto.getDescription());
         categoryRepository.save(category);
     }
+
+    @Override
+    public void delete(Long id) {
+        Category category = categoryRepository.findById(id).get();
+        category.setDeleted(true);
+        category.setDescription(category.getDescription()+ " - "+category.getId());
+        categoryRepository.save(category);
+    }
 }
