@@ -30,9 +30,16 @@ public class ClientVendorController {
     }
 
     @GetMapping("/update/{clientId}")
-    public String updateClientVendor(@PathVariable("clientId") Long id,Model model){
+    public String getUpdateClientVendor(@PathVariable("clientId") Long id,Model model){
         model.addAttribute("clientVendor",clientVendorService.findClientVendorById(id));
         return "clientVendor/clientVendor-update";
+    }
+
+    @PostMapping("/update/{clientId}")
+    public String updateClientVendor(@Valid @ModelAttribute("clientVendor")ClientVendorDto clientVendorDto, @PathVariable("clientId") Long id){
+        clientVendorDto.setId(id);
+        clientVendorService.update(id,clientVendorDto);
+        return "redirect:/clientVendors/list";
     }
     @GetMapping("/delete/{clientId}")
     public String deleteClientVendor(@PathVariable("clientId") Long id){

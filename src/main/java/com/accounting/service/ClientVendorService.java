@@ -13,4 +13,6 @@ public interface ClientVendorService {
     void delete(Long id);
 
     void save(ClientVendorDto clientVendorDto);
+
+    void update(Long id,ClientVendorDto clientVendorDto);
 }

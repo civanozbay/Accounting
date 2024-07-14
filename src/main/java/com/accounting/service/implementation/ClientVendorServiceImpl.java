@@ -22,7 +22,16 @@ public class ClientVendorServiceImpl implements ClientVendorService {
     private final SecurityService securityService;
     private final CompanyRepository companyRepository;
 
-    public ClientVendorServiceImpl(ClientVendorRepository clientVendorRepository,MapperUtil mapperUtil,SecurityService securityService,
+    @Override
+    public void update(Long id,ClientVendorDto clientVendorDto) {
+        ClientVendor savedClientVendor = clientVendorRepository.findById(id).get();
+        clientVendorDto.getAddress().setId(savedClientVendor.getAddress().getId());
+        clientVendorDto.setCompany(securityService.getLoggedInUser().getCompany());
+        ClientVendor updatedClientVendor = mapperUtil.convert(clientVendorDto, new ClientVendor());
+        clientVendorRepository.save(updatedClientVendor);
+    }
+
+    public ClientVendorServiceImpl(ClientVendorRepository clientVendorRepository, MapperUtil mapperUtil, SecurityService securityService,
                                    CompanyRepository companyRepository) {
         this.clientVendorRepository = clientVendorRepository;
         this.mapperUtil = mapperUtil;
