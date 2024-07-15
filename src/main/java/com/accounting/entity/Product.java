@@ -18,7 +18,7 @@ import org.hibernate.annotations.Where;
 public class Product extends BaseEntity{
 
     private String name;
-    private int quantityInStock;
+    private Integer quantityInStock;
     private int lowLimitAlert;
 
     @Enumerated(EnumType.STRING)

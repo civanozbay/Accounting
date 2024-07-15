@@ -13,7 +13,7 @@ import lombok.Setter;
 public class ProductDto {
     private Long id;
     private String name;
-    private int quantityInStock;
+    private Integer quantityInStock;
     private int lowLimitAlert;
     private ProductUnit productUnit;
     private CategoryDto category;
