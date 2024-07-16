@@ -16,4 +16,6 @@ public interface InvoiceService {
 
     BigDecimal getTotalPriceOfInvoice(Long id);
     BigDecimal getTotalTaxOfInvoice(Long id);
+
+    InvoiceDto getNewInvoice(InvoiceDto invoiceDto,InvoiceType invoiceType);
 }

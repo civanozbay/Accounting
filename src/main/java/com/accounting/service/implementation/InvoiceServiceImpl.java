@@ -1,6 +1,5 @@
 package com.accounting.service.implementation;
 
-import com.accounting.dto.CompanyDto;
 import com.accounting.dto.InvoiceDto;
 import com.accounting.dto.InvoiceProductDto;
 import com.accounting.entity.Company;
@@ -11,15 +10,19 @@ import com.accounting.repository.InvoiceRepository;
 import com.accounting.service.InvoiceProductService;
 import com.accounting.service.InvoiceService;
 import com.accounting.service.SecurityService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class InvoiceServiceImpl implements InvoiceService {
 
     private  final  InvoiceRepository invoiceRepository;
@@ -84,5 +87,23 @@ public class InvoiceServiceImpl implements InvoiceService {
                         .setScale(2, RoundingMode.HALF_UP))
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
+    }
+
+    @Override
+    public InvoiceDto getNewInvoice(InvoiceDto invoiceDto,InvoiceType invoiceType) {
+        invoiceDto.setDate(LocalDate.now());
+        Company company = mapperUtil.convert(securityService.getLoggedInUser().getCompany(), new Company());
+        List<Invoice> collect = invoiceRepository.findInvoicesByCompanyAndInvoiceType(company,invoiceType)
+                .stream()
+                .sorted(Comparator.comparing(Invoice::getInvoiceNo).reversed())
+                .collect(Collectors.toList());
+        if(collect.isEmpty()){
+            invoiceDto.setInvoiceNo(invoiceType.name().charAt(0)+"-001");
+        }else{
+            Invoice lastInvoice = collect.get(0);
+            int invoiceNo = Integer.parseInt(lastInvoice.getInvoiceNo().substring(2)) + 1;
+            invoiceDto.setInvoiceNo(invoiceType.name().charAt(0)+"-"+String.format("%03d", invoiceNo));
+        }
+        return invoiceDto;
     }
 }

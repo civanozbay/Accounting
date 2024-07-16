@@ -1,5 +1,6 @@
 package com.accounting.controller;
 
+import com.accounting.dto.InvoiceDto;
 import com.accounting.entity.Invoice;
 import com.accounting.enums.ClientVendorType;
 import com.accounting.enums.InvoiceType;
@@ -31,7 +32,8 @@ public class PurchaseInvoiceController {
 
     @GetMapping("/create")
     public String getCreate(Model model){
-        model.addAttribute("newPurchaseInvoice",new Invoice());
+        InvoiceDto invoiceDto = invoiceService.getNewInvoice(new InvoiceDto(), InvoiceType.PURCHASE);
+        model.addAttribute("newPurchaseInvoice",invoiceDto);
         return "/invoice/purchase-invoice-create";
     }
 
