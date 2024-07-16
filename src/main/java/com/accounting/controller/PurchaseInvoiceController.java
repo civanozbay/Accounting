@@ -2,8 +2,6 @@ package com.accounting.controller;
 
 import com.accounting.dto.InvoiceDto;
 import com.accounting.dto.InvoiceProductDto;
-import com.accounting.dto.ProductDto;
-import com.accounting.entity.Invoice;
 import com.accounting.enums.ClientVendorType;
 import com.accounting.enums.InvoiceType;
 import com.accounting.service.ClientVendorService;
@@ -62,11 +60,17 @@ public class PurchaseInvoiceController {
         invoiceService.update(id);
         return "redirect:/purchaseInvoices/list";
     }
+    @PostMapping("/addInvoiceProduct/{invoiceId}")
+    public String addInvoiceProduct(@Valid @ModelAttribute("newInvoiceProduct")InvoiceProductDto invoiceProductDto,@PathVariable("invoiceId")Long invoiceId){
+        invoiceProductService.save(invoiceProductDto,invoiceId);
+        return "redirect:/purchaseInvoices/update/" + invoiceId;
+    }
     @GetMapping("/delete/{purchaseId}")
     public String getDeletePurchase(@PathVariable("purchaseId")Long id){
         invoiceService.delete(id);
         return "redirect:/purchaseInvoices/list";
     }
+
 
     @ModelAttribute
     public void commonAttributes(Model model){

@@ -5,6 +5,7 @@ import com.accounting.entity.Invoice;
 import com.accounting.entity.InvoiceProduct;
 import com.accounting.mapper.MapperUtil;
 import com.accounting.repository.InvoiceProductRepository;
+import com.accounting.repository.InvoiceRepository;
 import com.accounting.service.InvoiceProductService;
 import com.accounting.service.InvoiceService;
 import org.springframework.context.annotation.Lazy;
@@ -21,11 +22,14 @@ public class InvoiceProductServiceImpl implements InvoiceProductService {
     private final InvoiceProductRepository invoiceProductRepository;
     private final MapperUtil mapperUtil;
     private final InvoiceService invoiceService;
+    private final InvoiceRepository invoiceRepository;
 
-    public InvoiceProductServiceImpl(InvoiceProductRepository invoiceProductRepository,MapperUtil mapperUtil,@Lazy InvoiceService invoiceService) {
+    public InvoiceProductServiceImpl(InvoiceProductRepository invoiceProductRepository,MapperUtil mapperUtil,@Lazy InvoiceService invoiceService,
+                                     InvoiceRepository invoiceRepository) {
         this.invoiceProductRepository = invoiceProductRepository;
         this.mapperUtil = mapperUtil;
         this.invoiceService = invoiceService;
+        this.invoiceRepository = invoiceRepository;
     }
 
     @Override
@@ -59,5 +63,14 @@ public class InvoiceProductServiceImpl implements InvoiceProductService {
     @Override
     public InvoiceProductDto findInvoiceProductById(Long id) {
         return mapperUtil.convert(invoiceProductRepository.findInvoiceProductById(id), new InvoiceProductDto());
+    }
+
+    @Override
+    public void save(InvoiceProductDto invoiceProductDto, Long invoiceId) {
+        Invoice invoice = invoiceRepository.findInvoiceById(invoiceId);
+        InvoiceProduct invoiceProduct = mapperUtil.convert(invoiceProductDto, new InvoiceProduct());
+        invoiceProduct.setInvoice(invoice);
+        invoiceProduct.setProfitLoss(BigDecimal.ZERO);
+        invoiceProductRepository.save(invoiceProduct);
     }
 }
