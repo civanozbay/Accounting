@@ -40,7 +40,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public InvoiceDto findInvoiceById(Long id) {
-        return mapperUtil.convert(invoiceRepository.findById(id).get(), new InvoiceDto());
+        return mapperUtil.convert(invoiceRepository.findInvoiceById(id), new InvoiceDto());
     }
 
     @Override
@@ -115,5 +115,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceDto.setInvoiceType(invoiceType);
         Invoice invoice = invoiceRepository.save(mapperUtil.convert(invoiceDto, new Invoice()));
         return mapperUtil.convert(invoice,new InvoiceDto());
+   }
+
+    @Override
+    public void update(Long invoiceId) {
+        Invoice invoice = invoiceRepository.findById(invoiceId).get();
+        invoiceRepository.save(invoice);
     }
 }

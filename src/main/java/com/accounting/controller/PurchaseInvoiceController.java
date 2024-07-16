@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/purchaseInvoices")
 public class PurchaseInvoiceController {
@@ -55,7 +57,11 @@ public class PurchaseInvoiceController {
         model.addAttribute("invoiceProducts",invoiceProductService.getInvoiceProductsOfInvoice(id));
         return "/invoice/purchase-invoice-update";
     }
-
+    @PostMapping("/update/{invoiceId}")
+    public String updatePurchase(@PathVariable("invoiceId")Long id){
+        invoiceService.update(id);
+        return "redirect:/purchaseInvoices/list";
+    }
     @GetMapping("/delete/{purchaseId}")
     public String getDeletePurchase(@PathVariable("purchaseId")Long id){
         invoiceService.delete(id);

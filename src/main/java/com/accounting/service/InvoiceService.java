@@ -1,6 +1,7 @@
 package com.accounting.service;
 
 import com.accounting.dto.InvoiceDto;
+import com.accounting.dto.InvoiceProductDto;
 import com.accounting.enums.InvoiceType;
 
 import java.math.BigDecimal;
@@ -20,4 +21,7 @@ public interface InvoiceService {
     InvoiceDto getNewInvoice(InvoiceDto invoiceDto,InvoiceType invoiceType);
 
     InvoiceDto create(InvoiceDto invoiceDto,InvoiceType invoiceType);
+
+    void update(Long id);
+
 }
