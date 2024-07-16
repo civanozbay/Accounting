@@ -76,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id).get();
         List<InvoiceProductDto> allInvoiceProducts = invoiceProductService.findAllInvoiceProductsByProductId(id);
         if (allInvoiceProducts.isEmpty() && product.getQuantityInStock() == 0) {
-            product.setDeleted(true);
+            product.setIsDeleted(true);
         } else {
             System.out.println("You can't delete this product");
         }

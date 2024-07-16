@@ -29,5 +29,5 @@ public class BaseEntity {
     @Column(nullable = false)
     public Long lastUpdateUserId;
 
-    private boolean isDeleted = false;
+    private Boolean isDeleted = false;
 }

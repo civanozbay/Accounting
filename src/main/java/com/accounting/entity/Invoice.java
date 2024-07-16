@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,5 +33,6 @@ public class Invoice extends BaseEntity{
     ClientVendor clientVendor;
     @ManyToOne
     Company company;
-
+    @OneToMany(mappedBy = "invoice")
+    private List<InvoiceProduct> invoiceProducts;
 }

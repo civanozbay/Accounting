@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         User updatedUser = mapperUtil.convert(userDto, new User());
         updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-        updatedUser.setEnabled(userRepository.findUserById(userDto.getId()).isEnabled());
+        updatedUser.setEnabled(userRepository.findUserById(userDto.getId()).getEnabled());
         User savedUser = userRepository.save(updatedUser);
         return mapperUtil.convert(savedUser,userDto);
     }
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
     public void delete(Long userId) {
         User user = userRepository.findUserById(userId);
         user.setUsername(user.getUsername() + " - " + user.getId());
-        user.setDeleted(true);
+        user.setIsDeleted(true);
         userRepository.save(user);
     }
 

@@ -22,7 +22,7 @@ public class User extends  BaseEntity{
     private String firstname;
     private String lastname;
     private String phone;
-    private boolean enabled;
+    private Boolean enabled;
 
     @ManyToOne
     private Role role;
