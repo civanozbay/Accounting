@@ -1,10 +1,14 @@
 package com.accounting.controller;
 
+import com.accounting.entity.Invoice;
+import com.accounting.enums.ClientVendorType;
 import com.accounting.enums.InvoiceType;
+import com.accounting.service.ClientVendorService;
 import com.accounting.service.InvoiceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -12,15 +16,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/purchaseInvoices")
 public class PurchaseInvoiceController {
     private final InvoiceService invoiceService;
+    private final ClientVendorService clientVendorService;
 
-    public PurchaseInvoiceController(InvoiceService invoiceService) {
+    public PurchaseInvoiceController(InvoiceService invoiceService,ClientVendorService clientVendorService) {
         this.invoiceService = invoiceService;
+        this.clientVendorService = clientVendorService;
     }
 
     @GetMapping("/list")
     public String getAllInvoicesOfCompany(Model model) {
         model.addAttribute("invoices",invoiceService.getAllInvoicesOfCompany(InvoiceType.PURCHASE));
         return "/invoice/purchase-invoice-list";
+    }
+
+    @GetMapping("/create")
+    public String getCreate(Model model){
+        model.addAttribute("newPurchaseInvoice",new Invoice());
+        return "/invoice/purchase-invoice-create";
     }
 
     @GetMapping("/update/{purchaseId}")
@@ -33,5 +45,10 @@ public class PurchaseInvoiceController {
     public String getDeletePurchase(@PathVariable("purchaseId")Long id){
         invoiceService.delete(id);
         return "redirect:/purchaseInvoices/list";
+    }
+
+    @ModelAttribute
+    public void commonAttributes(Model model){
+        model.addAttribute("vendors",clientVendorService.getAllClientVendorsOfCompany(ClientVendorType.VENDOR));
     }
     }

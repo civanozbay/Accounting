@@ -4,6 +4,7 @@ import com.accounting.dto.ClientVendorDto;
 import com.accounting.dto.CompanyDto;
 import com.accounting.entity.ClientVendor;
 import com.accounting.entity.Company;
+import com.accounting.enums.ClientVendorType;
 import com.accounting.mapper.MapperUtil;
 import com.accounting.repository.ClientVendorRepository;
 import com.accounting.repository.CompanyRepository;
@@ -67,5 +68,15 @@ public class ClientVendorServiceImpl implements ClientVendorService {
         clientVendorDto.setCompany(securityService.getLoggedInUser().getCompany());
         ClientVendor clientVendor = mapperUtil.convert(clientVendorDto, new ClientVendor());
         clientVendorRepository.save(clientVendor);
+    }
+
+    @Override
+    public List<ClientVendorDto> getAllClientVendorsOfCompany(ClientVendorType clientVendorType) {
+        Company company = mapperUtil.convert(securityService.getLoggedInUser().getCompany(), new Company());
+        return clientVendorRepository.findClientVendorsByCompany(company)
+                .stream()
+                .filter(clientVendor -> clientVendor.getClientVendorType()==clientVendorType)
+                .map(clientVendor -> mapperUtil.convert(clientVendor,new ClientVendorDto()))
+                .collect(Collectors.toList());
     }
 }
