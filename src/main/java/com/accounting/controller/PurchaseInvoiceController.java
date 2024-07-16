@@ -1,27 +1,33 @@
 package com.accounting.controller;
 
 import com.accounting.dto.InvoiceDto;
+import com.accounting.dto.InvoiceProductDto;
+import com.accounting.dto.ProductDto;
 import com.accounting.entity.Invoice;
 import com.accounting.enums.ClientVendorType;
 import com.accounting.enums.InvoiceType;
 import com.accounting.service.ClientVendorService;
+import com.accounting.service.InvoiceProductService;
 import com.accounting.service.InvoiceService;
+import com.accounting.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/purchaseInvoices")
 public class PurchaseInvoiceController {
     private final InvoiceService invoiceService;
     private final ClientVendorService clientVendorService;
+    private final ProductService productService;
+    private final InvoiceProductService invoiceProductService;
 
-    public PurchaseInvoiceController(InvoiceService invoiceService,ClientVendorService clientVendorService) {
+
+    public PurchaseInvoiceController(InvoiceService invoiceService,ClientVendorService clientVendorService,ProductService productService,InvoiceProductService invoiceProductService) {
         this.invoiceService = invoiceService;
         this.clientVendorService = clientVendorService;
+        this.productService = productService;
+        this.invoiceProductService = invoiceProductService;
     }
 
     @GetMapping("/list")
@@ -31,15 +37,22 @@ public class PurchaseInvoiceController {
     }
 
     @GetMapping("/create")
-    public String getCreate(Model model){
+    public String getCreatePurchase(Model model){
         InvoiceDto invoiceDto = invoiceService.getNewInvoice(new InvoiceDto(), InvoiceType.PURCHASE);
         model.addAttribute("newPurchaseInvoice",invoiceDto);
         return "/invoice/purchase-invoice-create";
     }
+    @PostMapping("/create")
+    public String createPurchase(@ModelAttribute("newPurchaseInvoice")InvoiceDto invoiceDto){
+        InvoiceDto invoice = invoiceService.create(invoiceDto, InvoiceType.PURCHASE);
+        return "redirect:/purchaseInvoices/update/"+invoice.getId();
+    }
 
-    @GetMapping("/update/{purchaseId}")
-    public String getUpdatePurchase(@PathVariable("purchaseId")Long id){
-
+    @GetMapping("/update/{invoiceId}")
+    public String getUpdatePurchase(@PathVariable("invoiceId")Long id,Model model){
+        model.addAttribute("invoice",invoiceService.findInvoiceById(id));
+        model.addAttribute("newInvoiceProduct",new InvoiceProductDto());
+        model.addAttribute("invoiceProducts",invoiceProductService.getInvoiceProductsOfInvoice(id));
         return "/invoice/purchase-invoice-update";
     }
 
@@ -52,5 +65,6 @@ public class PurchaseInvoiceController {
     @ModelAttribute
     public void commonAttributes(Model model){
         model.addAttribute("vendors",clientVendorService.getAllClientVendorsOfCompany(ClientVendorType.VENDOR));
+        model.addAttribute("products",productService.getAllProducts());
     }
     }

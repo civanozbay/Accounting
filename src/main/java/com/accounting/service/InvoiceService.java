@@ -18,4 +18,6 @@ public interface InvoiceService {
     BigDecimal getTotalTaxOfInvoice(Long id);
 
     InvoiceDto getNewInvoice(InvoiceDto invoiceDto,InvoiceType invoiceType);
+
+    InvoiceDto create(InvoiceDto invoiceDto,InvoiceType invoiceType);
 }

@@ -4,6 +4,7 @@ import com.accounting.dto.InvoiceDto;
 import com.accounting.dto.InvoiceProductDto;
 import com.accounting.entity.Company;
 import com.accounting.entity.Invoice;
+import com.accounting.enums.InvoiceStatus;
 import com.accounting.enums.InvoiceType;
 import com.accounting.mapper.MapperUtil;
 import com.accounting.repository.InvoiceRepository;
@@ -105,5 +106,14 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceDto.setInvoiceNo(invoiceType.name().charAt(0)+"-"+String.format("%03d", invoiceNo));
         }
         return invoiceDto;
+    }
+
+    @Override
+    public InvoiceDto create(InvoiceDto invoiceDto,InvoiceType invoiceType) {
+        invoiceDto.setCompany(securityService.getLoggedInUser().getCompany());
+        invoiceDto.setInvoiceStatus(InvoiceStatus.AWAITING_APPROVAL);
+        invoiceDto.setInvoiceType(invoiceType);
+        Invoice invoice = invoiceRepository.save(mapperUtil.convert(invoiceDto, new Invoice()));
+        return mapperUtil.convert(invoice,new InvoiceDto());
     }
 }
