@@ -1,13 +1,19 @@
 package com.accounting.service.implementation;
 
+import com.accounting.dto.InvoiceDto;
 import com.accounting.dto.InvoiceProductDto;
+import com.accounting.dto.ProductDto;
 import com.accounting.entity.Invoice;
 import com.accounting.entity.InvoiceProduct;
+import com.accounting.entity.Product;
+import com.accounting.enums.InvoiceType;
 import com.accounting.mapper.MapperUtil;
 import com.accounting.repository.InvoiceProductRepository;
 import com.accounting.repository.InvoiceRepository;
+import com.accounting.repository.ProductRepository;
 import com.accounting.service.InvoiceProductService;
 import com.accounting.service.InvoiceService;
+import com.accounting.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -24,14 +30,14 @@ public class InvoiceProductServiceImpl implements InvoiceProductService {
     private final InvoiceProductRepository invoiceProductRepository;
     private final MapperUtil mapperUtil;
     private final InvoiceService invoiceService;
-    private final InvoiceRepository invoiceRepository;
+    private final ProductService productService;
 
-    public InvoiceProductServiceImpl(InvoiceProductRepository invoiceProductRepository,MapperUtil mapperUtil,@Lazy InvoiceService invoiceService,
-                                     InvoiceRepository invoiceRepository) {
+    public InvoiceProductServiceImpl(InvoiceProductRepository invoiceProductRepository, MapperUtil mapperUtil, @Lazy InvoiceService invoiceService,
+                                     ProductService productService) {
         this.invoiceProductRepository = invoiceProductRepository;
         this.mapperUtil = mapperUtil;
         this.invoiceService = invoiceService;
-        this.invoiceRepository = invoiceRepository;
+        this.productService = productService;
     }
 
     @Override
@@ -70,10 +76,44 @@ public class InvoiceProductServiceImpl implements InvoiceProductService {
 
     @Override
     public void save(InvoiceProductDto invoiceProductDto, Long invoiceId) {
-        Invoice invoice = invoiceRepository.findInvoiceById(invoiceId);
+        Invoice invoice =mapperUtil.convert(invoiceService.findInvoiceById(invoiceId),new Invoice());
         InvoiceProduct invoiceProduct = mapperUtil.convert(invoiceProductDto, new InvoiceProduct());
         invoiceProduct.setInvoice(invoice);
         invoiceProduct.setProfitLoss(BigDecimal.ZERO);
         invoiceProductRepository.save(invoiceProduct);
+    }
+
+    @Override
+    public void completeApprovalProcedures(Long invoiceId, InvoiceType invoiceType) {
+        List<InvoiceProduct> invoiceProducts = invoiceProductRepository.findAllByInvoice_Id(invoiceId);
+        if(invoiceType == InvoiceType.SALES){
+            for(InvoiceProduct invoiceProduct : invoiceProducts){
+                if(checkQuantityOfProducts(mapperUtil.convert(invoiceProduct,new InvoiceProductDto()))){
+                    updateQuantityOfProducts(invoiceProduct,invoiceType);
+                    invoiceProduct.setRemainingQty(invoiceProduct.getQuantity());
+                    invoiceProductRepository.save(invoiceProduct);
+                }
+            }
+        }else{
+            for(InvoiceProduct invoiceProduct : invoiceProducts){
+                updateQuantityOfProducts(invoiceProduct,invoiceType);
+                invoiceProduct.setRemainingQty(invoiceProduct.getQuantity());
+                invoiceProductRepository.save(invoiceProduct);
+            }
+        }
+    }
+
+    private void updateQuantityOfProducts(InvoiceProduct invoiceProduct, InvoiceType invoiceType) {
+        ProductDto productDto = mapperUtil.convert(invoiceProduct.getProduct(), new ProductDto());
+        if(invoiceType == InvoiceType.SALES){
+            productDto.setQuantityInStock(productDto.getQuantityInStock() - invoiceProduct.getQuantity());
+        }else{
+            productDto.setQuantityInStock(productDto.getQuantityInStock() + invoiceProduct.getQuantity());
+        }
+        productService.update(productDto.getId(),productDto);
+    }
+
+    private boolean checkQuantityOfProducts(InvoiceProductDto invoiceProductDto) {
+        return invoiceProductDto.getProduct().getQuantityInStock() >= invoiceProductDto.getQuantity();
     }
 }

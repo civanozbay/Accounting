@@ -14,6 +14,7 @@ import com.accounting.repository.ProductRepository;
 import com.accounting.service.InvoiceProductService;
 import com.accounting.service.ProductService;
 import com.accounting.service.SecurityService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -30,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private final InvoiceProductService invoiceProductService;
 
     public ProductServiceImpl(ProductRepository productRepository, MapperUtil mapperUtil, SecurityService securityService,
-                              CompanyRepository companyRepository,InvoiceProductService invoiceProductService) {
+                              CompanyRepository companyRepository,@Lazy InvoiceProductService invoiceProductService) {
         this.productRepository = productRepository;
         this.mapperUtil = mapperUtil;
         this.securityService = securityService;

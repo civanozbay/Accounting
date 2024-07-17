@@ -61,6 +61,12 @@ public class PurchaseInvoiceController {
         invoiceService.update(id);
         return "redirect:/purchaseInvoices/list";
     }
+
+    @GetMapping("/approve/{invoiceId}")
+    public String getApprove(@PathVariable("invoiceId")Long invoiceId){
+        invoiceService.approve(invoiceId);
+        return "redirect:/purchaseInvoices/list";
+    }
     @PostMapping("/addInvoiceProduct/{invoiceId}")
     public String addInvoiceProduct(@Valid @ModelAttribute("newInvoiceProduct")InvoiceProductDto invoiceProductDto,@PathVariable("invoiceId")Long invoiceId){
         invoiceProductService.save(invoiceProductDto,invoiceId);

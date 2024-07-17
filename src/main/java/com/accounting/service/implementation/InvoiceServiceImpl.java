@@ -122,4 +122,13 @@ public class InvoiceServiceImpl implements InvoiceService {
         Invoice invoice = invoiceRepository.findById(invoiceId).get();
         invoiceRepository.save(invoice);
     }
+
+    @Override
+    public void approve(Long invoiceId) {
+        Invoice invoice = invoiceRepository.findInvoiceById(invoiceId);
+        invoiceProductService.completeApprovalProcedures(invoiceId, invoice.getInvoiceType());
+        invoice.setInvoiceStatus(InvoiceStatus.APPROVED);
+        invoice.setDate(LocalDate.now());
+        invoiceRepository.save(invoice);
+    }
 }
