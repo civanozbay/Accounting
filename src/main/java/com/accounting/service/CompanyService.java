@@ -19,6 +19,6 @@ public interface CompanyService {
     void create(CompanyDto companyDto);
 
     List<CompanyDto> getFilteredCompanyForCurrentUser();
-
+    CompanyDto getCompanyByLoggedInUser();
 
 }

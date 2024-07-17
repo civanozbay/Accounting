@@ -4,10 +4,7 @@ import com.accounting.dto.InvoiceDto;
 import com.accounting.dto.InvoiceProductDto;
 import com.accounting.enums.ClientVendorType;
 import com.accounting.enums.InvoiceType;
-import com.accounting.service.ClientVendorService;
-import com.accounting.service.InvoiceProductService;
-import com.accounting.service.InvoiceService;
-import com.accounting.service.ProductService;
+import com.accounting.service.*;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,13 +19,15 @@ public class PurchaseInvoiceController {
     private final ClientVendorService clientVendorService;
     private final ProductService productService;
     private final InvoiceProductService invoiceProductService;
+    private final CompanyService companyService;
 
 
-    public PurchaseInvoiceController(InvoiceService invoiceService,ClientVendorService clientVendorService,ProductService productService,InvoiceProductService invoiceProductService) {
+    public PurchaseInvoiceController(InvoiceService invoiceService,ClientVendorService clientVendorService,ProductService productService,InvoiceProductService invoiceProductService,CompanyService companyService) {
         this.invoiceService = invoiceService;
         this.clientVendorService = clientVendorService;
         this.productService = productService;
         this.invoiceProductService = invoiceProductService;
+        this.companyService = companyService;
     }
 
     @GetMapping("/list")
@@ -82,11 +81,18 @@ public class PurchaseInvoiceController {
         invoiceService.delete(id);
         return "redirect:/purchaseInvoices/list";
     }
+    @GetMapping(value = "/print/{invoiceId}")
+    public String print(@PathVariable("invoiceId") Long id, Model model)  {
+        model.addAttribute("invoice", invoiceService.printInvoice(id));
+        model.addAttribute("invoiceProducts",invoiceProductService.getInvoiceProductsOfInvoice(id));
+        return "invoice/invoice_print";
+    }
 
 
     @ModelAttribute
     public void commonAttributes(Model model){
         model.addAttribute("vendors",clientVendorService.getAllClientVendorsOfCompany(ClientVendorType.VENDOR));
         model.addAttribute("products",productService.getAllProducts());
+        model.addAttribute("company", companyService.getCompanyByLoggedInUser());
     }
     }

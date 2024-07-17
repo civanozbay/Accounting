@@ -76,6 +76,10 @@ public class CompanyServiceImpl implements CompanyService {
                     })
                     .collect(Collectors.toList());
     }
+    @Override
+    public CompanyDto getCompanyByLoggedInUser() {
+        return securityService.getLoggedInUser().getCompany();
+    }
 
 
 }

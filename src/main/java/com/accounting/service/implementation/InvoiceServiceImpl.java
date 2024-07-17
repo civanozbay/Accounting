@@ -131,4 +131,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setDate(LocalDate.now());
         invoiceRepository.save(invoice);
     }
+
+    @Override
+    public InvoiceDto printInvoice(Long id) {
+        InvoiceDto invoiceDto = mapperUtil.convert(invoiceRepository.findInvoiceById(id), new InvoiceDto());
+        calculateInvoiceDetails(invoiceDto);
+        return invoiceDto;
+    }
 }

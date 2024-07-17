@@ -26,4 +26,5 @@ public interface InvoiceService {
 
     void approve(Long invoiceId);
 
+    InvoiceDto printInvoice(Long id);
 }
