@@ -8,6 +8,7 @@ import com.accounting.service.ClientVendorService;
 import com.accounting.service.InvoiceProductService;
 import com.accounting.service.InvoiceService;
 import com.accounting.service.ProductService;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +64,11 @@ public class PurchaseInvoiceController {
     @PostMapping("/addInvoiceProduct/{invoiceId}")
     public String addInvoiceProduct(@Valid @ModelAttribute("newInvoiceProduct")InvoiceProductDto invoiceProductDto,@PathVariable("invoiceId")Long invoiceId){
         invoiceProductService.save(invoiceProductDto,invoiceId);
+        return "redirect:/purchaseInvoices/update/" + invoiceId;
+    }
+    @GetMapping("/removeInvoiceProduct/{invoiceId}/{invoiceProductId}")
+    public String removeInvoiceProduct(@PathVariable("invoiceId")Long invoiceId, @PathVariable("invoiceProductId") Long invoiceProductId){
+        invoiceProductService.delete(invoiceProductId);
         return "redirect:/purchaseInvoices/update/" + invoiceId;
     }
     @GetMapping("/delete/{purchaseId}")

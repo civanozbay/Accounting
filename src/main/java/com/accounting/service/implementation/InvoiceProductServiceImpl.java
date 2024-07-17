@@ -8,6 +8,7 @@ import com.accounting.repository.InvoiceProductRepository;
 import com.accounting.repository.InvoiceRepository;
 import com.accounting.service.InvoiceProductService;
 import com.accounting.service.InvoiceService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class InvoiceProductServiceImpl implements InvoiceProductService {
 
     private final InvoiceProductRepository invoiceProductRepository;
@@ -55,8 +57,9 @@ public class InvoiceProductServiceImpl implements InvoiceProductService {
 
     @Override
     public void delete(Long id) {
-        InvoiceProduct invoiceProduct = invoiceProductRepository.findById(id).get();
+        InvoiceProduct invoiceProduct = invoiceProductRepository.findInvoiceProductById(id);
         invoiceProduct.setIsDeleted(true);
+        log.info(invoiceProduct.getIsDeleted().toString());
         invoiceProductRepository.save(invoiceProduct);
     }
 
