@@ -2,6 +2,7 @@ package com.accounting.service;
 
 import com.accounting.dto.InvoiceDto;
 import com.accounting.dto.InvoiceProductDto;
+import com.accounting.enums.InvoiceStatus;
 import com.accounting.enums.InvoiceType;
 
 import java.math.BigDecimal;
@@ -27,4 +28,8 @@ public interface InvoiceService {
     void approve(Long invoiceId);
 
     InvoiceDto printInvoice(Long id);
+    List<InvoiceDto> getAllInvoicesByInvoiceStatus(InvoiceStatus invoiceStatus);
+
+    BigDecimal getProfitLossOfInvoice(Long id);
+    List<InvoiceDto> getLastThreeInvoices();
 }
