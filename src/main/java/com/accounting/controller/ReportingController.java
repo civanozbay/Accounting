@@ -22,4 +22,9 @@ public class ReportingController {
         model.addAttribute("invoiceProducts",reportingService.getStockData());
         return "/report/stock-report";
     }
+    @GetMapping("/profitLossData")
+    public String getProfitLossData(Model model){
+        model.addAttribute("monthlyProfitLossDataMap",reportingService.getMonthlyProfitLossData());
+        return "/report/profit-loss-report";
+    }
 }
