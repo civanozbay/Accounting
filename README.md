@@ -4,6 +4,8 @@
 
 This project is a Client Management and Invoice Tracking System built using Spring Boot and Thymeleaf. It utilizes Hibernate for ORM (Object-Relational Mapping) and follows the MVC (Model-View-Controller) design pattern. The system allows you to create clients, add products for clients, generate purchase and sales invoices, and track profit and loss ratios. Additionally, it integrates with third-party APIs using FeignClients to fetch country information.
 
+![Screenshot 2024-07-19 at 18 18 48](https://github.com/user-attachments/assets/17eb11d8-c2de-43af-8d40-83738a14b237)
+
 ### Features
 
 	•	Client Management: Create and manage clients.
@@ -41,3 +43,4 @@ This project is a Client Management and Invoice Tracking System built using Spri
 	•	Model: Entity classes representing database tables.
 	•	DTO: Data Transfer Objects for transferring data between layers.
 	•	FeignClient: Interfaces for consuming third-party APIs.
+![Screenshot 2024-07-19 at 18 19 35](https://github.com/user-attachments/assets/0de64fb3-48d9-4737-b7c9-5dac9246a93e)
