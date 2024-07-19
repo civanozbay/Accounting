@@ -24,6 +24,7 @@ public class DashboardController {
         model.addAttribute("companyTitle", companyService.getCompanyByLoggedInUser().getTitle());
         model.addAttribute("summaryNumbers", dashboardService.getAllSummaryNumbers());
         model.addAttribute("invoices", invoiceService.getLastThreeInvoices());
+        model.addAttribute("exchangeRates", dashboardService.getExchangeRates());
         return "dashboard_final";
     }
 

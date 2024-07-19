@@ -1,6 +1,8 @@
 package com.accounting.service.implementation;
 
 import com.accounting.dto.CompanyDto;
+import com.accounting.dto.CurrencyApiResponse;
+import com.accounting.dto.CurrencyDto;
 import com.accounting.dto.InvoiceDto;
 import com.accounting.entity.Company;
 import com.accounting.enums.InvoiceStatus;
@@ -11,6 +13,8 @@ import com.accounting.service.DashboardService;
 import com.accounting.service.InvoiceService;
 import com.accounting.service.ProductService;
 import com.accounting.service.SecurityService;
+import com.accounting.service.feignClients.CurrencyExchangeClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +22,22 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @Service
+@Slf4j
 public class DashboardServiceImpl implements DashboardService {
     private final InvoiceProductRepository invoiceProductRepository;
     private final MapperUtil mapperUtil;
     private final InvoiceService invoiceService;
     private final SecurityService securityService;
+    private final CurrencyExchangeClient client;
 
 
     public DashboardServiceImpl(InvoiceProductRepository invoiceProductRepository, MapperUtil mapperUtil, @Lazy InvoiceService invoiceService,
-                                     SecurityService securityService) {
+                                SecurityService securityService, CurrencyExchangeClient currencyExchangeClient) {
         this.invoiceProductRepository = invoiceProductRepository;
         this.mapperUtil = mapperUtil;
         this.invoiceService = invoiceService;
         this.securityService = securityService;
+        this.client = currencyExchangeClient;
     }
 
     @Override
@@ -52,5 +59,22 @@ public class DashboardServiceImpl implements DashboardService {
         summaryNumbersMap.put("totalSales", totalSales);
         summaryNumbersMap.put("profitLoss", profitLoss);
         return summaryNumbersMap;
+    }
+
+    @Override
+    public CurrencyDto getExchangeRates() {
+        CurrencyApiResponse currency = client.getUsdBasedCurrencies();
+        CurrencyDto currencyDto= CurrencyDto.builder()
+                .euro(currency.getUsd().getEur())
+                .britishPound(currency.getUsd().getGbp())
+                .indianRupee(currency.getUsd().getInr())
+                .japaneseYen(currency.getUsd().getJpy())
+                .canadianDollar(currency.getUsd().getCad())
+                .build();
+
+        log.info("Currencies are fetched for the date : "+ currency.getDate());
+
+        return currencyDto;
+
     }
 }
